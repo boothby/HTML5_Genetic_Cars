@@ -98,14 +98,13 @@ function mutateNormal(prop, generator, originalValue, mutation_range){
   if(mutation_range > 1){
     throw new Error("Cannot mutate beyond bounds");
   }
-  var newMin = originalValue - 0.5;
-  if (newMin < 0) newMin = 0;
-  if (newMin + mutation_range  > 1)
-    newMin = 1 - mutation_range;
   var rangeValue = createNormal({
     inclusive: true,
   }, generator);
-  return newMin + rangeValue * mutation_range;
+  var newValue = originalValue + (rangeValue - 0.5);
+  if (newValue < 0) return 0;
+  if (newValue > 1) return 1;
+  return newValue;
 }
 
 function createNormal(prop, generator){
